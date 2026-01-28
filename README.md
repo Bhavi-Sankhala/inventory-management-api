@@ -57,6 +57,7 @@ http://127.0.0.1:8000/docs
 
 ## Project Structure
 
+```
 API/
 ├── app/
 │   ├── main.py
@@ -66,7 +67,7 @@ API/
 │   └── crud.py
 ├── requirements.txt
 └── README.md
-
+```
 
 ---
 
