@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 class ProductCreate(BaseModel):
     name: str
@@ -20,6 +21,19 @@ class ProductResponse(BaseModel):
     price: float
     quantity: int
     is_active: bool
+
+    class Config:
+        from_attributes = True
+
+class StockChange(BaseModel):
+    quantity: int
+    remarks: str | None = None
+
+class StockHistoryResponse(BaseModel):
+    transaction_type: str
+    change_quantity: int
+    remarks: Optional[str]
+    created_at: Optional[datetime]   # ✅ MUST be Optional
 
     class Config:
         from_attributes = True
