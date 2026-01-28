@@ -59,11 +59,11 @@ http://127.0.0.1:8000/docs
 
 API/
 ├── app/
-│ ├── main.py
-│ ├── database.py
-│ ├── models.py
-│ ├── schemas.py
-│ └── crud.py
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   └── crud.py
 ├── requirements.txt
 └── README.md
 
