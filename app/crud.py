@@ -1,8 +1,14 @@
 from sqlalchemy.orm import Session
-from .models import Product
-from .models import Product, StockTransaction
+from sqlalchemy.exc import IntegrityError
 
+from .models import (
+    Product,
+    ProductType,
+    Brand,
+    StockTransaction
+)
 
+# ---------- PRODUCT ----------
 def create_product(db: Session, data):
     product = Product(**data.dict())
     db.add(product)
@@ -10,11 +16,14 @@ def create_product(db: Session, data):
     db.refresh(product)
     return product
 
+
 def get_product_by_id(db: Session, product_id: int):
     return db.query(Product).filter(Product.id == product_id).first()
 
+
 def get_all_products(db: Session):
     return db.query(Product).all()
+
 
 def update_product(db: Session, product_id: int, data):
     product = db.query(Product).filter(Product.id == product_id).first()
@@ -28,6 +37,7 @@ def update_product(db: Session, product_id: int, data):
     db.refresh(product)
     return product
 
+
 def delete_product(db: Session, product_id: int):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -37,6 +47,8 @@ def delete_product(db: Session, product_id: int):
     db.commit()
     return True
 
+
+# ---------- STOCK ----------
 def stock_in(db: Session, product_id: int, quantity: int, remarks: str | None):
     product = db.query(Product).filter(Product.id == product_id).first()
     if not product:
@@ -84,3 +96,37 @@ def get_stock_history(db: Session, product_id: int):
         .order_by(StockTransaction.created_at.desc())
         .all()
     )
+
+
+# ---------- PRODUCT TYPE ----------
+def create_product_type(db: Session, name: str):
+    try:
+        pt = ProductType(name=name)
+        db.add(pt)
+        db.commit()
+        db.refresh(pt)
+        return pt
+    except IntegrityError:
+        db.rollback()
+        return None
+
+
+def get_all_product_types(db: Session):
+    return db.query(ProductType).all()
+
+
+# ---------- BRAND ----------
+def create_brand(db: Session, name: str):
+    try:
+        brand = Brand(name=name)
+        db.add(brand)
+        db.commit()
+        db.refresh(brand)
+        return brand
+    except IntegrityError:
+        db.rollback()
+        return None
+
+
+def get_all_brands(db: Session):
+    return db.query(Brand).all()

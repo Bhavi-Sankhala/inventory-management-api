@@ -3,6 +3,7 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
+
 class Product(Base):
     __tablename__ = "products"
 
@@ -13,6 +14,9 @@ class Product(Base):
     quantity = Column(Integer, nullable=False)
     is_active = Column(Boolean, default=True)
     created_at = Column(TIMESTAMP)
+    product_type_id = Column(Integer)
+    brand_id = Column(Integer)
+
 
 class StockTransaction(Base):
     __tablename__ = "stock_transactions"
@@ -23,3 +27,17 @@ class StockTransaction(Base):
     transaction_type = Column(String(10))
     remarks = Column(Text)
     created_at = Column(TIMESTAMP)
+
+
+class ProductType(Base):
+    __tablename__ = "product_types"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
+
+
+class Brand(Base):
+    __tablename__ = "brands"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), unique=True, nullable=False)
